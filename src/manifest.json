@@ -6,8 +6,10 @@
     "content_scripts": [
         {
             "matches": [
+                "http://amazon.com/*",
+                "http://www.amazon.com/*",
                 "https://amazon.com/*",
-                "http://www.amazon.com/*"
+                "https://www.amazon.com/*"
             ],
             "js": [
                 "scripts/jquery.js",
