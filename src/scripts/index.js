@@ -1,4 +1,5 @@
-var hourlyIncome = 8.25;
+var hourlyIncome;
+var defaultHourlyIncome = 7.25;
 var priceRegex = /\$[\d]+[\.]*[\d,]*/ig;
 var refreshRate = 2; // in seconds
 var priceContainers = [
@@ -11,18 +12,35 @@ var priceContainers = [
 
 $(document).ready(function(){
 
-replacePrices();
-	setInterval(function(){
-		if (document.hasFocus) {
-			replacePrices();
-		}
-	}, refreshRate * 1000);
 
+    $.ajax({
+        url: chrome.extension.getURL("data/wages.json"),
+        success: function(data){
+        	var states = JSON.parse(data);
+        	
+        	$.ajax({
+				url: "http://www.telize.com/ip",
+				success: function(data) {
+
+					$.getJSON("https://freegeoip.net/json/" + data.trim(), function(data){
+			
+						hourlyIncome = states[data.region_code] || defaultHourlyIncome;
+
+						replacePrices();
+						setInterval(function(){
+							if (document.hasFocus) {
+								replacePrices();
+							}
+						}, refreshRate * 1000);
+					});
+				}
+			});
+        }
+    });
 });
 
 function replacePrices() {
 	
-	// replacePrices($("body"));
 	$(priceContainers.join(',')).each(function(){
 		
 		var text = $(this).text();
@@ -35,7 +53,7 @@ function replacePrices() {
 					var hours = parseFloat(match.substring(1)) / hourlyIncome;
 					var now = moment();
 					var then = moment().add('hour', hours);
-					var display = now.from(then, true);
+					var display = capitalize(now.from(then, true));
 					text = text.replace(match, display);
 					
 				}
@@ -45,3 +63,9 @@ function replacePrices() {
 		}	
 	});
 }
+
+function capitalize(s) {
+    return s[0].toUpperCase() + s.slice(1);
+}
+
+

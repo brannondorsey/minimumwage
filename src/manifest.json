@@ -21,15 +21,10 @@
     "offline_enabled": false,
     "permissions": [
         "tabs",
-        "https://*.amazon.com/*",
-        "http://localhost/*"
+        "http://*/"
     ],
-    "update_url": "http://path/to/updateInfo.xml",
     "web_accessible_resources": [
         "manifest.json",
-        "data/common_first_names.txt",
-        "data/common_last_names.txt",
-        "data/usernames.txt",
-        "glitter_cursor.gif"
+        "data/wages.json"
     ]
 }
