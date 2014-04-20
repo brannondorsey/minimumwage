@@ -1,5 +1,5 @@
 {
-    "name": "Minimum Wage",
+    "name": "Amazon Minimum Wage",
     "version": "1.0",
     "manifest_version": 2,
     "description": "Transforms prices on Amazon.com to values in time spent earning minimum wage",
